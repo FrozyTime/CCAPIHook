@@ -13,15 +13,17 @@ public class EZJSONFetchData {
 
     String data;
 
-    /**
+    /** Init
      * @param data String: JSON
      */
     public EZJSONFetchData(String data) {
         this.data = data;
-//        if(CCAPIHook.isDebugging()) System.out.println("Parsing data, " + this.data);
     }
 
-    /** General Use **/
+    // TODO: 11/3/2020 Recode this to work with new JSON. 
+    /** General Use 
+     * @param identifier String : Identifier 
+     */
     public String fetchServerData(String identifier) throws ArrayIndexOutOfBoundsException {
         return this.data.split(identifier+"\":")[1].split(",")[0].replace(" ", "");
     }
