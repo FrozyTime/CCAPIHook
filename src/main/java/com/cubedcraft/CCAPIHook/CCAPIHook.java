@@ -50,42 +50,42 @@ public class CCAPIHook extends PlaceholderExpansion {
         if(values.get(0).equalsIgnoreCase("votes") || values.get(0).equalsIgnoreCase("vote")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getVotes.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "-1"; }
+                try { return getVotes.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("boosters") || values.get(0).equalsIgnoreCase("booster")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getBoosters.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "-1"; }
+                try { return getBoosters.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("suspended")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getSuspended.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+                try { return getSuspended.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("planid")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getPlanID.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+                try { return getPlanID.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("online")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getAmountOfPlayers.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+                try { return getAmountOfPlayers.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("maxonline")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getMaxAmountOfPlayers.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+                try { return getMaxAmountOfPlayers.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
@@ -93,7 +93,7 @@ public class CCAPIHook extends PlaceholderExpansion {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 int index;
                 try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
-                try { return getTopBoosted.server(index); } catch (BadRequestException | ArrayIndexOutOfBoundsException | ParseException e) { e.printStackTrace(); return "N/A"; }
+                try { return getTopBoosted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
@@ -101,7 +101,7 @@ public class CCAPIHook extends PlaceholderExpansion {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 int index;
                 try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
-                try { return getTopVoted.server(index); } catch (BadRequestException | ArrayIndexOutOfBoundsException | ParseException e) { e.printStackTrace(); return "N/A"; }
+                try { return getTopVoted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
