@@ -7,21 +7,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HTTPRequest {
-    private static final CCAPIHook CCAPIHook = new CCAPIHook();
-
     /** Request data from the API.
      * @param requestedData String: Add suffixes on what data to query from the API.
      */
     public static String getData(String requestedData) throws IOException {
-        URL apiURL = new URL(CCAPIHook.getAPIURL()+requestedData);
+        URL apiURL = new URL(CCAPIHook.API_URL+requestedData);
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) apiURL.openConnection();
 
         httpURLConnection.setRequestMethod("GET");
-        httpURLConnection.setRequestProperty("User-Agent", CCAPIHook.getUserAgent());
+        httpURLConnection.setRequestProperty("User-Agent", CCAPIHook.USER_AGENT);
 
         int apiResponseCode = httpURLConnection.getResponseCode();
-        if(CCAPIHook.isDebugging()) System.out.println("API response code, " + apiResponseCode);
+        if(CCAPIHook.DEBUG) System.out.println("API response code, " + apiResponseCode);
 
         if(apiResponseCode != HttpURLConnection.HTTP_OK) {
             httpURLConnection.disconnect();

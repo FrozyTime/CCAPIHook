@@ -7,9 +7,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class EZJSONFetchData {
-
-    private static final CCAPIHook CCAPI = CCAPIHook.get();
-    private static final JSONParser parser = new JSONParser();
+	private final JSONParser parser = new JSONParser();
 
     String data;
 
@@ -72,14 +70,14 @@ public class EZJSONFetchData {
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
 
-        if(CCAPI.isDebugging()) System.out.println("Type: Vote");
+        if(CCAPIHook.DEBUG) System.out.println("Type: Vote");
 
         JSONObject json = (JSONObject) parser.parse(JSON.read(this.data));
         JSONArray topVotedServers = (JSONArray) json.get("servers");
 
         if(topVotedServers.get(index) != null) {
             JSONObject votedServer = (JSONObject) topVotedServers.get(index);
-            if(CCAPI.isDebugging()) System.out.println("At index " + index + " we found the server " + votedServer.get("name"));
+            if(CCAPIHook.DEBUG) System.out.println("At index " + index + " we found the server " + votedServer.get("name"));
             return (String) votedServer.get("name");
         }
 
@@ -95,14 +93,14 @@ public class EZJSONFetchData {
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
 
-        if(CCAPI.isDebugging()) System.out.println("Type: Boosts");
+        if(CCAPIHook.DEBUG) System.out.println("Type: Boosts");
 
         JSONObject json = (JSONObject) parser.parse(JSON.read(this.data));
         JSONArray topBoostedServers = (JSONArray) json.get("servers");
 
         if(topBoostedServers.get(index) != null) {
             JSONObject boostedServer = (JSONObject) topBoostedServers.get(index);
-            if(CCAPI.isDebugging()) System.out.println("At index " + index + " we found the server " + boostedServer.get("name"));
+            if(CCAPIHook.DEBUG) System.out.println("At index " + index + " we found the server " + boostedServer.get("name"));
             return (String) boostedServer.get("name");
         }
 

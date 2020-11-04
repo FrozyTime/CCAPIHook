@@ -10,14 +10,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CCAPIHook extends PlaceholderExpansion {
+	/** Version of the plugin. **/
+	public static final String VERSION = "1.0.1";
 
-    private static CCAPIHook instance;
+	/** Get the main API URL. **/
+	public static final String API_URL ="https://api.playerservers.com";
 
-    public CCAPIHook() { instance = this; }
+	/** User Agent to use when sending requests. **/
+	public static final String USER_AGENT = "CCAPI/"+ VERSION;
 
-    public static CCAPIHook get() { return instance; }
+	/** Get whether or not to send debug data to console. **/
+	public static boolean DEBUG = false;
 
-    /** Get the expansion identifier. **/
+	/** Get the expansion identifier. **/
     public String getIdentifier() {
         return "ccapi";
     }
@@ -29,22 +34,7 @@ public class CCAPIHook extends PlaceholderExpansion {
 
     /** Get the expansion version. **/
     public String getVersion() {
-        return "1.0.1";
-    }
-
-    /** Get the main API URL. **/
-    public String getAPIURL() {
-        return "https://api.playerservers.com";
-    }
-
-    /** Get the API User Agent. **/
-    public String getUserAgent() {
-        return "Mozilla/5.0";
-    }
-
-    /** Get whether or not to send debug data to console. **/
-    public boolean isDebugging() {
-        return false;
+        return VERSION;
     }
 
     /** Expansion placeholder request.
