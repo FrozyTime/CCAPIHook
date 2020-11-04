@@ -1,10 +1,7 @@
 package com.cubedcraft.CCAPIHook;
 
 import com.cubedcraft.CCAPIHook.Exceptions.BadRequestException;
-import com.cubedcraft.CCAPIHook.Server.PS.getBoosters;
-import com.cubedcraft.CCAPIHook.Server.PS.getPlanID;
-import com.cubedcraft.CCAPIHook.Server.PS.getSuspended;
-import com.cubedcraft.CCAPIHook.Server.PS.getVotes;
+import com.cubedcraft.CCAPIHook.Server.PS.*;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -74,6 +71,14 @@ public class CCAPIHook extends PlaceholderExpansion {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
                 try { return getPlanID.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("topboosted")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                int index;
+                try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
+                try { return getTopBoosted.server(index); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
