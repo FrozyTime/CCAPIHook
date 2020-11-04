@@ -7,15 +7,15 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-public class getTopBoosted {
+public class getTopVoted {
 
     public static String server(int index) throws BadRequestException, ParseException {
         String data;
         try {
-            data = HTTPRequest.getData("/servers/topboosted");
+            data = HTTPRequest.getData("/servers/topvoted");
         } catch(IOException ignored) { throw new BadRequestException(); }
 
-        return new EZJSONFetchData(data).fetchTopBoostedServer(index);
+        return new EZJSONFetchData(data).fetchTopVotedServer(index);
     }
 
 }
