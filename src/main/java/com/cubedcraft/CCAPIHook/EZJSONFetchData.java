@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 
 public class EZJSONFetchData {
 
-    private static final CCAPIHook CCAPIHook = new CCAPIHook();
+    private static final CCAPIHook CCAPI = CCAPIHook.get();
     private static final JSONParser parser = new JSONParser();
 
     String data;
@@ -53,7 +53,7 @@ public class EZJSONFetchData {
         return this.data.split("onlinePlayers"+"\":")[1].split(",")[0].replace(" ", "");
     }
 
-    // TODO: 11/4/2020 Use this. 
+    // TODO: 11/4/2020 Use this.
     /** Get the software a server is using. **/
     public String getServerSoftware() throws ArrayIndexOutOfBoundsException {
         return this.data.split("software"+"\":")[1].split(",")[0].replace(" ", "");
@@ -72,14 +72,14 @@ public class EZJSONFetchData {
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
 
-        if(CCAPIHook.isDebugging()) System.out.println("Type: Vote");
+        if(CCAPI.isDebugging()) System.out.println("Type: Vote");
 
         JSONObject json = (JSONObject) parser.parse(JSON.read(this.data));
         JSONArray topVotedServers = (JSONArray) json.get("servers");
 
         if(topVotedServers.get(index) != null) {
             JSONObject votedServer = (JSONObject) topVotedServers.get(index);
-            if(CCAPIHook.isDebugging()) System.out.println("At index " + index + " we found the server " + votedServer.get("name"));
+            if(CCAPI.isDebugging()) System.out.println("At index " + index + " we found the server " + votedServer.get("name"));
             return (String) votedServer.get("name");
         }
 
@@ -95,14 +95,14 @@ public class EZJSONFetchData {
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
 
-        if(CCAPIHook.isDebugging()) System.out.println("Type: Boosts");
+        if(CCAPI.isDebugging()) System.out.println("Type: Boosts");
 
         JSONObject json = (JSONObject) parser.parse(JSON.read(this.data));
         JSONArray topBoostedServers = (JSONArray) json.get("servers");
 
         if(topBoostedServers.get(index) != null) {
             JSONObject boostedServer = (JSONObject) topBoostedServers.get(index);
-            if(CCAPIHook.isDebugging()) System.out.println("At index " + index + " we found the server " + boostedServer.get("name"));
+            if(CCAPI.isDebugging()) System.out.println("At index " + index + " we found the server " + boostedServer.get("name"));
             return (String) boostedServer.get("name");
         }
 

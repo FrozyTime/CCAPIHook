@@ -10,6 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CCAPIHook extends PlaceholderExpansion {
+
+    private static CCAPIHook instance;
+
+    public CCAPIHook() { instance = this; }
+
+    public static CCAPIHook get() { return instance; }
+
     /** Get the expansion identifier. **/
     public String getIdentifier() {
         return "ccapi";
