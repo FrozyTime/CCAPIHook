@@ -4,6 +4,7 @@ import com.cubedcraft.CCAPIHook.Exceptions.BadRequestException;
 import com.cubedcraft.CCAPIHook.Server.PS.*;
 import com.cubedcraft.CCAPIHook.Utils.Cache;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
@@ -57,7 +58,9 @@ public class CCAPIHook extends PlaceholderExpansion {
 			String type = values.get(1);
 
 			Field f = Server.class.getField(type.toLowerCase());
-			return String.valueOf(f.get(server));
+			Object value = f.get(server);
+
+			return ReflectionToStringBuilder.toString(value);
 		} catch (BadRequestException | NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
 			return "Error";
