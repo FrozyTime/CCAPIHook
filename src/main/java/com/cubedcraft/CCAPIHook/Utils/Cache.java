@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Cache {
-	private HashMap<String, CacheData> cache = new HashMap<>();
-	private int invalidateAfter;
+	private final HashMap<String, CacheData> cache = new HashMap<>();
+	private final int invalidateAfter;
 
 	public Cache() {
 		this(60 * 5);

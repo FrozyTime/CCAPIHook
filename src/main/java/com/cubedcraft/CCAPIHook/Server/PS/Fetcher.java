@@ -20,11 +20,17 @@ public class Fetcher {
 		this.cache = cache;
 	}
 
+	/**
+	 * Gets a server from the cache or from the api
+	 * @param name Server name
+	 * @return Server data
+	 * @throws BadRequestException If party is not happy the api sometimes fails to work and will throw this exception
+	 */
 	public Server getServerData(String name) throws BadRequestException {
 		Server cached = cache.get(name);
 		if (cached != null) return cached;
 
-		String rawData = null;
+		String rawData;
 
 		try {
 			rawData = getData("/server/" + name);

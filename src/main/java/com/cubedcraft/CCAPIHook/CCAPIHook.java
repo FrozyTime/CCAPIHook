@@ -5,7 +5,6 @@ import com.cubedcraft.CCAPIHook.Server.PS.*;
 import com.cubedcraft.CCAPIHook.Utils.Cache;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import org.json.simple.parser.ParseException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class CCAPIHook extends PlaceholderExpansion {
 	/** User Agent to use when sending requests. **/
 	public final String USER_AGENT = "CCAPI/"+ VERSION;
 
-	/** Get whether or not to send debug data to console. **/
+	/** Whether or not to send debug data to console. **/
 	public boolean DEBUG = false;
 
 	/** Get the expansion identifier. **/
@@ -33,7 +32,7 @@ public class CCAPIHook extends PlaceholderExpansion {
 
 	/** Get the expansion author. **/
 	public String getAuthor() {
-        return "CubedCraft";
+        return "DebitCardz, unlimitedcoder2";
     }
 
 	/** Get the expansion version. **/
