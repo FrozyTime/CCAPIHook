@@ -75,6 +75,20 @@ public class CCAPIHook extends PlaceholderExpansion {
             }
         }
 
+        else if(values.get(0).equalsIgnoreCase("online")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getAmountOfPlayers.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("maxonline")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getMaxAmountOfPlayers.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
         else if(values.get(0).equalsIgnoreCase("topboosted")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 int index;

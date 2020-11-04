@@ -48,6 +48,21 @@ public class EZJSONFetchData {
         return this.data.split("plan_id"+"\":")[1].split(",")[0].replace(" ", "");
     }
 
+    /** Get the amount of online players on a server. **/
+    public String getAmountOfPlayers() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("onlinePlayers"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get the software a server is using. **/
+    public String getServerSoftware() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("software"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get the max amount of players allowed on a server. **/
+    public String getMaxAmountOfPlayers() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("maxPlayers"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
     /** Fetch all of the top 10 most voted servers by index.
      * @param index int: Server placement
      */
