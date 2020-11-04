@@ -1,136 +1,117 @@
 package com.cubedcraft.CCAPIHook;
 
+import com.cubedcraft.CCAPIHook.Exceptions.BadRequestException;
+import com.cubedcraft.CCAPIHook.Server.PS.*;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
 public class CCAPIHook extends PlaceholderExpansion {
-    private static final String baseURL = "https://api.playerservers.com";
-    private static final String USER_AGENT = "Mozilla/5.0";
-    private static final boolean debug = false;
 
-    public CCAPIHook() {
-        try {
-            Exception exception1, exception2 = null;
-        } catch(Exception e) { e.printStackTrace(); }
-    }
+    private static CCAPIHook instance;
 
+    public CCAPIHook() { instance = this; }
+
+    public static CCAPIHook get() { return instance; }
+
+    /** Get the expansion identifier. **/
     public String getIdentifier() {
         return "ccapi";
     }
 
+    /** Get the expansion author. **/
     public String getAuthor() {
         return "CubedCraft";
     }
 
+    /** Get the expansion version. **/
     public String getVersion() {
-        return "1.0.0";
+        return "1.0.1";
     }
 
+    /** Get the main API URL. **/
+    public String getAPIURL() {
+        return "https://api.playerservers.com";
+    }
+
+    /** Get the API User Agent. **/
+    public String getUserAgent() {
+        return "Mozilla/5.0";
+    }
+
+    /** Get whether or not to send debug data to console. **/
+    public boolean isDebugging() {
+        return false;
+    }
+
+    /** Expansion placeholder request.
+     * @param player Player: Placeholders require a player to fetch data.
+     * @param identifier String: Identifier/Values of the placeholder request.
+     */
     public String onPlaceholderRequest(Player player, String identifier) {
         List<String> values = Arrays.asList(identifier.split("_"));
 
-        if(debug) {
-            print(new String(String.valueOf(values.size())));
-            print(values.get(1));
-        }
-
-        if(values.get(0).equalsIgnoreCase("votes")) {
-            if(
-                values.size() == 3 &&
-                values.get(1).equalsIgnoreCase("server") &&
-                values.get(2) != null ) {
-
-                String votes;
-                try { votes = getVotes(baseURL+"/"+values.get(1)+"/"+values.get(2)); } catch (IOException ignored) { return "-1"; }
-
-                return votes;
+        if(values.get(0).equalsIgnoreCase("votes") || values.get(0).equalsIgnoreCase("vote")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getVotes.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
             }
         }
-        if(values.get(0).equalsIgnoreCase("boosters")) {
-            if(
-                values.size() == 3 &&
-                values.get(1).equalsIgnoreCase("server") &&
-                values.get(2) != null ) {
 
-                String votes;
-                try { votes = getBoosters(baseURL+"/"+values.get(1)+"/"+values.get(2)); } catch (IOException ignored) { return "-1"; }
+        else if(values.get(0).equalsIgnoreCase("boosters") || values.get(0).equalsIgnoreCase("booster")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getBoosters.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
+            }
+        }
 
-                return votes;
+        else if(values.get(0).equalsIgnoreCase("suspended")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getSuspended.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("planid")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getPlanID.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("online")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getAmountOfPlayers.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("maxonline")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getMaxAmountOfPlayers.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("topboosted")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                int index;
+                try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
+                try { return getTopBoosted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("topvoted")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                int index;
+                try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
+                try { return getTopVoted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
             }
         }
 
         return null;
-
-    }
-
-    private String getVotes(String fakeURL) throws IOException {
-        URL theRealURL = new URL(fakeURL);
-
-        HttpURLConnection httpURLConnection = (HttpURLConnection) theRealURL.openConnection();
-        httpURLConnection.setRequestMethod("GET");
-        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
-
-        int responseCode = httpURLConnection.getResponseCode();
-        if (debug) System.out.println(responseCode);
-
-        if (responseCode != HttpURLConnection.HTTP_OK) {
-            httpURLConnection.disconnect(); // efficiency.
-            return "-1";
-        }
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in                                                                                                                 .                                          readLine()) != null) {
-            response.append(inputLine);
-        } in .close();
-
-        String votes = response.toString().split("votes\":")[1].split(",")[0].replace(" ", "");
-        if(debug) System.out.println(response.toString().split("votes\":")[1].split(",")[0].replace(" ", ""));
-
-        httpURLConnection.disconnect(); // efficiency.
-        return votes;
-    }
-
-    private String getBoosters(String fakeURL) throws IOException {
-        URL theRealRealURL = new URL(fakeURL);
-
-        HttpURLConnection httpURLConnection = (HttpURLConnection) theRealRealURL.openConnection();
-        httpURLConnection.setRequestMethod("GET");
-        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
-
-        int responseCode = httpURLConnection.getResponseCode();
-        if (debug) System.out.println(responseCode);
-
-        if (responseCode != HttpURLConnection.HTTP_OK) {
-            httpURLConnection.disconnect(); // efficiency.
-            return "-1";
-        }
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in                                                                                                                 .                                          readLine()) != null) {
-            response.append(inputLine);
-        } in .close();
-
-        String votes = response.toString().split("boosters\":")[1].split(",")[0].replace(" ", "");
-        if(debug) System.out.println(response.toString().split("boosters\":")[1].split(",")[0].replace(" ", ""));
-
-        return votes;
-    }
-
-    private void print(String theErrorMessage) {
-        System.out.println(theErrorMessage);
     }
 }
