@@ -53,6 +53,7 @@ public class EZJSONFetchData {
         return this.data.split("onlinePlayers"+"\":")[1].split(",")[0].replace(" ", "");
     }
 
+    // TODO: 11/4/2020 Use this. 
     /** Get the software a server is using. **/
     public String getServerSoftware() throws ArrayIndexOutOfBoundsException {
         return this.data.split("software"+"\":")[1].split(",")[0].replace(" ", "");
