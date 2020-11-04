@@ -52,46 +52,46 @@ public class CCAPIHook extends PlaceholderExpansion {
 	    String serverName = values.get(2);
 	    if (serverName == null) return null;
 
-	    Server server = null;
+	    Server server;
 	    try {
 		    server = this.fetcher.getServerData(serverName);
 	    } catch (BadRequestException e) {
 		    e.printStackTrace();
-		    return "Server not found";
+		    return "Error";
 	    }
 
 	    String type = values.get(1);
 
+	    Object value = null;
+	    
+	    switch(type.toLowerCase()) {
+		    case "votes":
+		    	value = server.votes;
+		    	break;
+		    case "boosters":
+		    	value = server.boosters;
+		    	break;
+		    case "suspended":
+		    	value = server.suspended;
+		    	break;
+		    case "planid":
+		    	value = server.plan_id;
+		    	break;
+		    case "online":	
+		    	value = server.online;
+		    	break;
+		    case "maxonline":
+		    	value = server.maxPlayers;
+		    	break;
+	    }
+
+	    return String.valueOf(value);
+
 	    //ccapi_votes_<server name>
-		if(type.equalsIgnoreCase("votes")) {
-			return String.valueOf(server.votes);
-		}
-
 		//ccapi_boosters_<server name>
-		if(type.equalsIgnoreCase("boosters")) {
-			return String.valueOf(server.boosters);
-		}
-
-		//ccapi_boosters_<server name>
-		if(values.get(1).equalsIgnoreCase("suspended")) {
-			return String.valueOf(server.suspended);
-		}
-
-		//ccapi_boosters_<server name>
-		if(type.equalsIgnoreCase("planid")) {
-			return String.valueOf(server.plan_id);
-		}
-
+		//ccapi_suspended_<server name>
+		//ccapi_planid_<server name>
 		//ccapi_online_<server name>
-		if(type.equalsIgnoreCase("online")) {
-			return String.valueOf(server.online);
-		}
-
 		//ccapi_maxonline_<server name>
-		if(type.equalsIgnoreCase("maxonline")) {
-			return String.valueOf(server.maxPlayers);
-		}
-
-        return null;
     }
 }
