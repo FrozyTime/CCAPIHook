@@ -11,7 +11,7 @@ public class getVotes {
     /** Get the votes from the specified server.
      * @param server String: Server name
      */
-    public static String getVotes(String server) throws BadRequestException {
+    public static String server(String server) throws BadRequestException {
 
         String data;
         try {
