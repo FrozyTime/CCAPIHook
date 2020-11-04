@@ -6,23 +6,22 @@ public class EZJSONFetchData {
 
     String data;
 
+    /**
+     * @param data String: JSON
+     */
     public EZJSONFetchData(String data) {
         this.data = data;
         if(CCAPIHook.isDebugging()) System.out.println("Parsing data, " + this.data);
     }
 
-    /** Fetch the votes of the specified server.
-     * @param data String: JSON
-     */
-    public static String fetchPSVotes(String data) {
-        return "-1";
+    /** Fetch the votes of the specified server. **/
+    public String fetchPSVotes() {
+        return this.data.split("votes\":")[1].split(",")[0].replace(" ", "");
     }
 
-    /** Fetch the boosters of the specified server.
-     * @param data String: JSON
-     */
-    public static String fetchPSBoosters(String data) {
-        return "-1";
+    /** Fetch the boosters of the specified server. **/
+    public String fetchPSBoosters() {
+        return this.data.split("boosters\":")[1].split(",")[0].replace(" ", "");
     }
 
     /** Fetch all of the top 10 most voted servers by index.
