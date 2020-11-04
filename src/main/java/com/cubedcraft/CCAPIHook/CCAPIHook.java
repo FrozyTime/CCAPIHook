@@ -37,7 +37,7 @@ public class CCAPIHook extends PlaceholderExpansion {
 
     /** Get whether or not to send debug data to console. **/
     public boolean isDebugging() {
-        return true;
+        return false;
     }
 
     /** Expansion placeholder request.
