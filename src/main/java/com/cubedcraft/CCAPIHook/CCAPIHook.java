@@ -2,6 +2,7 @@ package com.cubedcraft.CCAPIHook;
 
 import com.cubedcraft.CCAPIHook.Exceptions.BadRequestException;
 import com.cubedcraft.CCAPIHook.Server.PS.*;
+import com.cubedcraft.CCAPIHook.Utils.Cache;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.json.simple.parser.ParseException;
@@ -10,97 +11,86 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CCAPIHook extends PlaceholderExpansion {
+	public Cache cache = new Cache();
+	public Fetcher fetcher = new Fetcher(this, cache);
+
 	/** Version of the plugin. **/
-	public static final String VERSION = "1.0.1";
+	public final String VERSION = "1.0.1";
 
 	/** Get the main API URL. **/
-	public static final String API_URL ="https://api.playerservers.com";
+	public final String API_URL ="https://api.playerservers.com";
 
 	/** User Agent to use when sending requests. **/
-	public static final String USER_AGENT = "CCAPI/"+ VERSION;
+	public final String USER_AGENT = "CCAPI/"+ VERSION;
 
 	/** Get whether or not to send debug data to console. **/
-	public static boolean DEBUG = false;
+	public boolean DEBUG = false;
 
 	/** Get the expansion identifier. **/
-    public String getIdentifier() {
+	public String getIdentifier() {
         return "ccapi";
     }
 
-    /** Get the expansion author. **/
-    public String getAuthor() {
+	/** Get the expansion author. **/
+	public String getAuthor() {
         return "CubedCraft";
     }
 
-    /** Get the expansion version. **/
-    public String getVersion() {
+	/** Get the expansion version. **/
+	public String getVersion() {
         return VERSION;
     }
 
-    /** Expansion placeholder request.
-     * @param player Player: Placeholders require a player to fetch data.
-     * @param identifier String: Identifier/Values of the placeholder request.
-     */
-    public String onPlaceholderRequest(Player player, String identifier) {
-        List<String> values = Arrays.asList(identifier.split("_"));
+	/** Expansion placeholder request.
+	 * @param player Player: Placeholders require a player to fetch data.
+	 * @param identifier String: Identifier/Values of the placeholder request.
+	 */
+	public String onPlaceholderRequest(Player player, String identifier) {
+		List<String> values = Arrays.asList(identifier.split("_"));
+        if (!values.get(0).equalsIgnoreCase("ccapi")) return null;
 
-        if(values.get(0).equalsIgnoreCase("votes") || values.get(0).equalsIgnoreCase("vote")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getVotes.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
-            }
-        }
+	    String serverName = values.get(2);
+	    if (serverName == null) return null;
 
-        else if(values.get(0).equalsIgnoreCase("boosters") || values.get(0).equalsIgnoreCase("booster")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getBoosters.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
-            }
-        }
+	    Server server = null;
+	    try {
+		    server = this.fetcher.getServerData(serverName);
+	    } catch (BadRequestException e) {
+		    e.printStackTrace();
+		    return "Server not found";
+	    }
 
-        else if(values.get(0).equalsIgnoreCase("suspended")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getSuspended.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+	    String type = values.get(1);
 
-        else if(values.get(0).equalsIgnoreCase("planid")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getPlanID.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+	    //ccapi_votes_<server name>
+		if(type.equalsIgnoreCase("votes")) {
+			return String.valueOf(server.votes);
+		}
 
-        else if(values.get(0).equalsIgnoreCase("online")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getAmountOfPlayers.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+		//ccapi_boosters_<server name>
+		if(type.equalsIgnoreCase("boosters")) {
+			return String.valueOf(server.boosters);
+		}
 
-        else if(values.get(0).equalsIgnoreCase("maxonline")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                String server = values.get(2);
-                try { return getMaxAmountOfPlayers.server(server); } catch (BadRequestException  e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+		//ccapi_boosters_<server name>
+		if(values.get(1).equalsIgnoreCase("suspended")) {
+			return String.valueOf(server.suspended);
+		}
 
-        else if(values.get(0).equalsIgnoreCase("topboosted")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                int index;
-                try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
-                try { return getTopBoosted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+		//ccapi_boosters_<server name>
+		if(type.equalsIgnoreCase("planid")) {
+			return String.valueOf(server.plan_id);
+		}
 
-        else if(values.get(0).equalsIgnoreCase("topvoted")) {
-            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
-                int index;
-                try { index = Integer.parseInt(values.get(2)); } catch (NumberFormatException ignored) { return "N/A"; }
-                try { return getTopVoted.server(index); } catch (BadRequestException | ParseException e) { e.printStackTrace(); return "N/A"; }
-            }
-        }
+		//ccapi_online_<server name>
+		if(type.equalsIgnoreCase("online")) {
+			return String.valueOf(server.online);
+		}
+
+		//ccapi_maxonline_<server name>
+		if(type.equalsIgnoreCase("maxonline")) {
+			return String.valueOf(server.maxPlayers);
+		}
 
         return null;
     }
