@@ -15,7 +15,7 @@ public class getTopVoted {
             data = HTTPRequest.getData("/servers/topvoted");
         } catch(IOException ignored) { throw new BadRequestException(); }
 
-        return new EZJSONFetchData(data).fetchTopVotedServer(index);
+        return new EZJSONFetchData(data).getTopVotedServer(index);
     }
 
 }

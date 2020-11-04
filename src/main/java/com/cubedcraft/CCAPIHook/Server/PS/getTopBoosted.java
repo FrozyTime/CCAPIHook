@@ -15,7 +15,7 @@ public class getTopBoosted {
             data = HTTPRequest.getData("/servers/topboosted");
         } catch(IOException ignored) { throw new BadRequestException(); }
 
-        return new EZJSONFetchData(data).fetchTopBoostedServer(index);
+        return new EZJSONFetchData(data).getTopBoostedServer(index);
     }
 
 }

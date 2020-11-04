@@ -24,14 +24,34 @@ public class EZJSONFetchData {
     /** General Use 
      * @param identifier String : Identifier 
      */
-    public String fetchServerData(String identifier) throws ArrayIndexOutOfBoundsException {
+    public String getServerData(String identifier) throws ArrayIndexOutOfBoundsException {
         return this.data.split(identifier+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get server votes. **/
+    public String getVotes() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("votes"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get server boosters. **/
+    public String getBoosters() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("boosters"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get if the server is suspended. **/
+    public String getSuspended() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("suspended"+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
+    /** Get a servers plan id. **/
+    public String getPlanID() throws ArrayIndexOutOfBoundsException {
+        return this.data.split("plan_id"+"\":")[1].split(",")[0].replace(" ", "");
     }
 
     /** Fetch all of the top 10 most voted servers by index.
      * @param index int: Server placement
      */
-    public String fetchTopVotedServer(int index) throws ParseException {
+    public String getTopVotedServer(int index) throws ParseException {
         if(index < 0 || index > 10) return "N/A";
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
@@ -54,7 +74,7 @@ public class EZJSONFetchData {
     /** Fetch all of the top 10 most boosted servers by index.
      * @param index int: Server placement
      */
-    public String fetchTopBoostedServer(int index) throws ParseException {
+    public String getTopBoostedServer(int index) throws ParseException {
         if(index < 0 || index > 10) return "N/A";
         // We are most likely going to have people using <1-10> so just remove 1.
         if(index != 0) index = index - 1;
