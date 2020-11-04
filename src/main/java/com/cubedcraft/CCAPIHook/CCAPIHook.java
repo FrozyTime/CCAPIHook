@@ -1,5 +1,8 @@
 package com.cubedcraft.CCAPIHook;
 
+import com.cubedcraft.CCAPIHook.Exceptions.BadRequestException;
+import com.cubedcraft.CCAPIHook.Server.PS.getBoosters;
+import com.cubedcraft.CCAPIHook.Server.PS.getVotes;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -48,6 +51,20 @@ public class CCAPIHook extends PlaceholderExpansion {
      */
     public String onPlaceholderRequest(Player player, String identifier) {
         List<String> values = Arrays.asList(identifier.split("_"));
+
+        if(values.get(0).equalsIgnoreCase("votes") || values.get(0).equalsIgnoreCase("vote")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getVotes.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
+            }
+        }
+
+        else if(values.get(0).equalsIgnoreCase("boosters") || values.get(0).equalsIgnoreCase("booster")) {
+            if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
+                String server = values.get(2);
+                try { return getBoosters.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
+            }
+        }
 
         return null;
     }
