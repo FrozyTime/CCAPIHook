@@ -18,7 +18,7 @@ public class getBoosters {
             data = HTTPRequest.getData("/server/"+server);
         } catch(IOException ignored) { throw new BadRequestException(); }
 
-        return new EZJSONFetchData(data).fetchPSBoosters();
+        return new EZJSONFetchData(data).fetchServerData("boosters");
     }
 
 }

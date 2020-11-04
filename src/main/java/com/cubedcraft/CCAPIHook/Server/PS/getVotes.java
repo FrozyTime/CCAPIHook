@@ -18,7 +18,7 @@ public class getVotes {
             data = HTTPRequest.getData("/server/"+server);
         } catch(IOException ignored) { throw new BadRequestException(); }
 
-        return new EZJSONFetchData(data).fetchPSVotes();
+        return new EZJSONFetchData(data).fetchServerData("votes");
     }
 
 }

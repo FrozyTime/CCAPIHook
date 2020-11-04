@@ -14,18 +14,8 @@ public class EZJSONFetchData {
         if(CCAPIHook.isDebugging()) System.out.println("Parsing data, " + this.data);
     }
 
-    /** Fetch the votes of the specified server. **/
-    public String fetchPSVotes() throws ArrayIndexOutOfBoundsException {
-        return this.data.split("votes\":")[1].split(",")[0].replace(" ", "");
-    }
-
-    /** Fetch the boosters of the specified server. **/
-    public String fetchPSBoosters() throws ArrayIndexOutOfBoundsException {
-        return this.data.split("boosters\":")[1].split(",")[0].replace(" ", "");
-    }
-
     /** General Use **/
-    public String fetchOtherData(String identifier) throws ArrayIndexOutOfBoundsException {
+    public String fetchServerData(String identifier) throws ArrayIndexOutOfBoundsException {
         return this.data.split(identifier+"\":")[1].split(",")[0].replace(" ", "");
     }
 
