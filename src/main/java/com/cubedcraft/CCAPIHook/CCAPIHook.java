@@ -8,11 +8,6 @@ import com.cubedcraft.CCAPIHook.Server.PS.getVotes;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +39,7 @@ public class CCAPIHook extends PlaceholderExpansion {
 
     /** Get whether or not to send debug data to console. **/
     public boolean isDebugging() {
-        return false;
+        return true;
     }
 
     /** Expansion placeholder request.

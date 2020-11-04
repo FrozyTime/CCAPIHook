@@ -22,14 +22,14 @@ public class EZJSONFetchData {
     /** Fetch all of the top 10 most voted servers by index.
      * @param index int: Server placement
      */
-    public static String fetchTopVotedServer(int index) {
+    public String fetchTopVotedServer(int index) {
         return "-1";
     }
 
     /** Fetch all of the top 10 most boosted servers by index.
      * @param index int: Server placement
      */
-    public static String fetchTopBoostedServer(int index) {
+    public String fetchTopBoostedServer(int index) {
         return "-1";
     }
 }
