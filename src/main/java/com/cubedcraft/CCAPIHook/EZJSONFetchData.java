@@ -24,6 +24,11 @@ public class EZJSONFetchData {
         return this.data.split("boosters\":")[1].split(",")[0].replace(" ", "");
     }
 
+    /** General Use **/
+    public String fetchOtherData(String identifier) throws ArrayIndexOutOfBoundsException {
+        return this.data.split(identifier+"\":")[1].split(",")[0].replace(" ", "");
+    }
+
     /** Fetch all of the top 10 most voted servers by index.
      * @param index int: Server placement
      */
