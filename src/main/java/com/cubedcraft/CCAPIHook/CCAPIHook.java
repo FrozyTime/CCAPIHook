@@ -6,6 +6,7 @@ import com.cubedcraft.CCAPIHook.Utils.Cache;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,51 +47,20 @@ public class CCAPIHook extends PlaceholderExpansion {
 	 */
 	public String onPlaceholderRequest(Player player, String identifier) {
 		List<String> values = Arrays.asList(identifier.split("_"));
-        if (!values.get(0).equalsIgnoreCase("ccapi")) return null;
+		if (!values.get(0).equalsIgnoreCase("ccapi")) return null;
 
-	    String serverName = values.get(2);
-	    if (serverName == null) return null;
+		String serverName = values.get(2);
+		if (serverName == null) return null;
 
-	    Server server;
-	    try {
-		    server = this.fetcher.getServerData(serverName);
-	    } catch (BadRequestException e) {
-		    e.printStackTrace();
-		    return "Error";
-	    }
+		try {
+			Server server = this.fetcher.getServerData(serverName);
+			String type = values.get(1);
 
-	    String type = values.get(1);
-
-	    Object value = null;
-	    
-	    switch(type.toLowerCase()) {
-		    case "votes":
-		    	value = server.votes;
-		    	break;
-		    case "boosters":
-		    	value = server.boosters;
-		    	break;
-		    case "suspended":
-		    	value = server.suspended;
-		    	break;
-		    case "planid":
-		    	value = server.plan_id;
-		    	break;
-		    case "online":	
-		    	value = server.online;
-		    	break;
-		    case "maxonline":
-		    	value = server.maxPlayers;
-		    	break;
-	    }
-
-	    return String.valueOf(value);
-
-	    //ccapi_votes_<server name>
-		//ccapi_boosters_<server name>
-		//ccapi_suspended_<server name>
-		//ccapi_planid_<server name>
-		//ccapi_online_<server name>
-		//ccapi_maxonline_<server name>
-    }
+			Field f = Server.class.getField(type.toLowerCase());
+			return String.valueOf(f.get(server));
+		} catch (BadRequestException | NoSuchFieldException | IllegalAccessException e) {
+			e.printStackTrace();
+			return "Error";
+		}
+	}
 }
