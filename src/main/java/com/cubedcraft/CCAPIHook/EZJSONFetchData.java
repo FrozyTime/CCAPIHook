@@ -15,12 +15,12 @@ public class EZJSONFetchData {
     }
 
     /** Fetch the votes of the specified server. **/
-    public String fetchPSVotes() {
+    public String fetchPSVotes() throws ArrayIndexOutOfBoundsException {
         return this.data.split("votes\":")[1].split(",")[0].replace(" ", "");
     }
 
     /** Fetch the boosters of the specified server. **/
-    public String fetchPSBoosters() {
+    public String fetchPSBoosters() throws ArrayIndexOutOfBoundsException {
         return this.data.split("boosters\":")[1].split(",")[0].replace(" ", "");
     }
 

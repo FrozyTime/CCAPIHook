@@ -55,14 +55,14 @@ public class CCAPIHook extends PlaceholderExpansion {
         if(values.get(0).equalsIgnoreCase("votes") || values.get(0).equalsIgnoreCase("vote")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getVotes.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
+                try { return getVotes.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "-1"; }
             }
         }
 
         else if(values.get(0).equalsIgnoreCase("boosters") || values.get(0).equalsIgnoreCase("booster")) {
             if(values.size() == 3 && values.get(1).equalsIgnoreCase("server") && values.get(2) != null) {
                 String server = values.get(2);
-                try { return getBoosters.server(server); } catch (BadRequestException e) { e.printStackTrace(); return "-1"; }
+                try { return getBoosters.server(server); } catch (BadRequestException | ArrayIndexOutOfBoundsException e) { e.printStackTrace(); return "-1"; }
             }
         }
 
